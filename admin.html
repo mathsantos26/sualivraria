@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Painel Admin - Sua Livraria</title>
+
+<style>
+
+:root{
+    --marrom:#3d1700;
+    --laranja:#d88117;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    padding:30px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+}
+
+h1{
+    color:var(--marrom);
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.formulario{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    margin-bottom:30px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.formulario input,
+.formulario textarea,
+.formulario select{
+
+    width:100%;
+    padding:12px;
+    margin-top:8px;
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+
+}
+
+button{
+
+    background:var(--laranja);
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.lista{
+    display:grid;
+    gap:15px;
+}
+
+.item{
+
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+
+}
+
+.item img{
+
+    width:100px;
+    height:140px;
+    object-fit:cover;
+    border-radius:8px;
+    margin-bottom:10px;
+
+}
+
+.excluir{
+
+    background:#c62828;
+    margin-top:10px;
+
+}
+
+.voltar{
+
+    display:inline-block;
+    margin-top:20px;
+    text-decoration:none;
+    color:white;
+    background:var(--marrom);
+    padding:12px 20px;
+    border-radius:8px;
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Painel Administrativo</h1>
+
+<div class="formulario">
+
+<h2>Novo Livro</h2>
+
+<input
+type="text"
+id="nome"
+placeholder="Nome do Livro">
+
+<select id="categoria">
+
+<option>Bíblias</option>
+<option>Devocionais</option>
+<option>Livros</option>
+
+</select>
+
+<input
+type="text"
+id="preco"
+placeholder="Preço">
+
+<textarea
+id="descricao"
+placeholder="Descrição">
+</textarea>
+
+<input
+type="text"
+id="imagem"
+placeholder="Link da imagem">
+
+<button onclick="adicionarLivro()">
+Adicionar Livro
+</button>
+
+</div>
+
+<div class="lista" id="lista">
+
+</div>
+
+<a href="index.html" class="voltar">
+Voltar ao Site
+</a>
+
+</div>
+
+<script>
+
+let livros =
+JSON.parse(localStorage.getItem("livros")) || [];
+
+function salvar(){
+
+    localStorage.setItem(
+        "livros",
+        JSON.stringify(livros)
+    );
+
+}
+
+function adicionarLivro(){
+
+    const nome =
+    document.getElementById("nome").value;
+
+    const categoria =
+    document.getElementById("categoria").value;
+
+    const preco =
+    document.getElementById("preco").value;
+
+    const descricao =
+    document.getElementById("descricao").value;
+
+    const imagem =
+    document.getElementById("imagem").value;
+
+    if(!nome){
+
+        alert("Digite o nome do livro");
+        return;
+
+    }
+
+    livros.push({
+
+        id:Date.now(),
+
+        nome,
+        categoria,
+        preco,
+        descricao,
+        imagem
+
+    });
+
+    salvar();
+
+    location.reload();
+
+}
+
+function excluirLivro(id){
+
+    livros =
+    livros.filter(
+        livro => livro.id !== id
+    );
+
+    salvar();
+
+    renderizar();
+
+}
+
+function renderizar(){
+
+    const lista =
+    document.getElementById("lista");
+
+    lista.innerHTML = "";
+
+    livros.forEach(livro=>{
+
+        lista.innerHTML += `
+
+        <div class="item">
+
+            <img src="${livro.imagem}">
+
+            <h3>${livro.nome}</h3>
+
+            <p>
+            Categoria:
+            ${livro.categoria}
+            </p>
+
+            <p>
+            R$ ${livro.preco}
+            </p>
+
+            <button
+            class="excluir"
+            onclick="excluirLivro(${livro.id})">
+
+            Excluir
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+renderizar();
+
+</script>
+
+</body>
+</html>
