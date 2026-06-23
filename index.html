@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sua Livraria</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+
+    <div class="logo-container">
+        <img src="imagens/logo.png" alt="Sua Livraria" class="logo">
+        <p class="slogan">O seu lugar entre os livros.</p>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#quem-somos">Quem Somos</a></li>
+            <li><a href="#catalogo">Catálogo</a></li>
+            <li><a href="#contato">Contato</a></li>
+        </ul>
+    </nav>
+
+</header>
+
+<!-- HERO -->
+<section id="inicio" class="hero">
+    <div class="hero-content">
+        <h1>Sua próxima leitura começa aqui</h1>
+        <p>Bíblias, devocionais e livros cuidadosamente selecionados para fortalecer sua fé.</p>
+        <a href="#catalogo" class="btn-principal">Ver Catálogo</a>
+    </div>
+</section>
+
+<!-- QUEM SOMOS -->
+<section id="quem-somos" class="secao">
+    <h2>Quem Somos</h2>
+    <p>Mais do que vender livros, queremos conectar pessoas a histórias, ensinamentos e conteúdos que edificam vidas.</p>
+    <p>Atendemos Barreiras-BA, Bom Jesus-PI e toda a região.</p>
+</section>
+
+<!-- CATÁLOGO -->
+<section id="catalogo" class="secao secao-catalogo">
+
+    <h2>Catálogo</h2>
+
+    <!-- BUSCA -->
+    <div class="busca-container">
+        <input type="text" id="busca" placeholder="🔍 Pesquisar livro...">
+    </div>
+
+    <!-- BÍBLIAS -->
+    <div id="secao-biblias">
+        <h3 class="subtitulo-catalogo">Bíblias</h3>
+        <div class="catalogo" id="catalogo-biblias"></div>
+    </div>
+
+    <!-- DEVOCIONAIS -->
+    <div id="secao-devocionais">
+        <h3 class="subtitulo-catalogo">Devocionais</h3>
+        <div class="catalogo" id="catalogo-devocionais"></div>
+    </div>
+
+    <!-- LIVROS -->
+    <div id="secao-livros">
+        <h3 class="subtitulo-catalogo">Livros</h3>
+        <div class="catalogo" id="catalogo-livros"></div>
+    </div>
+
+    <!-- MENSAGEM SEM RESULTADOS -->
+    <p id="sem-resultados" style="display:none; text-align:center; color:#888; padding:40px 0;">
+        Nenhum livro encontrado para "<span id="termo-buscado"></span>".
+    </p>
+
+</section>
+
+<!-- CONTATO -->
+<section id="contato" class="contato">
+
+    <h2>Contato</h2>
+
+    <div class="contato-grid">
+
+        <div class="box-contato">
+            <h3>WhatsApp Principal</h3>
+            <a href="https://wa.me/5589981427000" target="_blank" rel="noopener">
+                (89) 98142-7000
+            </a>
+        </div>
+
+        <div class="box-contato">
+            <h3>WhatsApp Secundário</h3>
+            <a href="https://wa.me/5577998034848" target="_blank" rel="noopener">
+                (77) 99803-4848
+            </a>
+        </div>
+
+        <div class="box-contato">
+            <h3>Instagram</h3>
+            <a href="https://instagram.com/sualivraria" target="_blank" rel="noopener">
+                @sualivraria
+            </a>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 Sua Livraria</p>
+    <p>Barreiras - Bahia</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
