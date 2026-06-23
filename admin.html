@@ -4,288 +4,492 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Painel Admin - Sua Livraria</title>
 
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
 <style>
-
-:root{
-    --marrom:#3d1700;
-    --laranja:#d88117;
+body {
+    background: #f5f5f5;
+    padding: 30px 20px;
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* ===========================
+   TELA DE LOGIN
+=========================== */
+#tela-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
 }
 
-body{
-    font-family:Arial,sans-serif;
-    background:#f5f5f5;
-    padding:30px;
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.1);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
 }
 
-.container{
-    max-width:1000px;
-    margin:auto;
+.login-box img {
+    width: 70px;
+    margin-bottom: 15px;
 }
 
-h1{
-    color:var(--marrom);
-    text-align:center;
-    margin-bottom:30px;
+.login-box h2 {
+    font-family: 'Merriweather', serif;
+    color: var(--marrom);
+    margin-bottom: 8px;
+    font-size: 1.3rem;
 }
 
-.formulario{
-    background:white;
-    padding:25px;
-    border-radius:15px;
-    margin-bottom:30px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
+.login-box p {
+    color: #888;
+    font-size: .9rem;
+    margin-bottom: 25px;
 }
 
-.formulario input,
-.formulario textarea,
-.formulario select{
-
-    width:100%;
-    padding:12px;
-    margin-top:8px;
-    margin-bottom:15px;
-    border:1px solid #ddd;
-    border-radius:8px;
-
+.login-box input {
+    width: 100%;
+    padding: 13px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 15px;
+    transition: border-color .2s;
+    text-align: center;
+    letter-spacing: 3px;
 }
 
-button{
-
-    background:var(--laranja);
-    color:white;
-    border:none;
-    padding:12px 20px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-
+.login-box input:focus {
+    border-color: var(--laranja);
 }
 
-button:hover{
-    opacity:.9;
+.btn-entrar {
+    width: 100%;
+    background: var(--laranja);
+    color: white;
+    border: none;
+    padding: 13px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background .2s;
 }
 
-.lista{
-    display:grid;
-    gap:15px;
+.btn-entrar:hover {
+    background: #b86e10;
 }
 
-.item{
-
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-
+.erro-login {
+    color: #c62828;
+    font-size: .85rem;
+    margin-top: 12px;
+    display: none;
 }
 
-.item img{
-
-    width:100px;
-    height:140px;
-    object-fit:cover;
-    border-radius:8px;
-    margin-bottom:10px;
-
+/* ===========================
+   PAINEL ADMIN
+=========================== */
+#tela-admin {
+    display: none;
 }
 
-.excluir{
-
-    background:#c62828;
-    margin-top:10px;
-
+.admin-container {
+    max-width: 900px;
+    margin: auto;
 }
 
-.voltar{
-
-    display:inline-block;
-    margin-top:20px;
-    text-decoration:none;
-    color:white;
-    background:var(--marrom);
-    padding:12px 20px;
-    border-radius:8px;
-
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
+.admin-titulo {
+    font-family: 'Merriweather', serif;
+    color: var(--marrom);
+    font-size: 1.5rem;
+}
+
+.btn-sair {
+    background: #888;
+    color: white;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: .9rem;
+    font-weight: bold;
+    transition: background .2s;
+}
+
+.btn-sair:hover {
+    background: #555;
+}
+
+.formulario {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.08);
+}
+
+.formulario h2 {
+    color: var(--marrom);
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.campo {
+    margin-bottom: 15px;
+}
+
+.campo label {
+    display: block;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 5px;
+    font-size: .9rem;
+}
+
+.campo input,
+.campo textarea,
+.campo select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    transition: border-color .2s;
+    outline: none;
+}
+
+.campo input:focus,
+.campo textarea:focus,
+.campo select:focus {
+    border-color: var(--laranja);
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.btn-adicionar {
+    background: var(--laranja);
+    color: white;
+    border: none;
+    padding: 13px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    width: 100%;
+    transition: background .2s;
+}
+
+.btn-adicionar:hover {
+    background: #b86e10;
+}
+
+.lista-titulo {
+    font-family: 'Merriweather', serif;
+    color: var(--marrom);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.lista {
+    display: grid;
+    gap: 15px;
+}
+
+.item {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.item img {
+    width: 80px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: #f5f5f5;
+}
+
+.item-info { flex: 1; }
+
+.item-info h3 {
+    color: var(--marrom);
+    margin-bottom: 5px;
+}
+
+.item-info p {
+    color: #666;
+    font-size: .9rem;
+    margin-bottom: 3px;
+}
+
+.item-preco {
+    font-weight: 700;
+    color: var(--marrom);
+    font-size: 1.1rem;
+    margin-top: 5px;
+}
+
+.btn-excluir {
+    background: #c62828;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: .85rem;
+    transition: background .2s;
+    flex-shrink: 0;
+}
+
+.btn-excluir:hover { background: #a31e1e; }
+
+.vazio {
+    text-align: center;
+    color: #aaa;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+}
+
+.btn-voltar {
+    display: inline-block;
+    margin-top: 25px;
+    text-decoration: none;
+    color: white;
+    background: var(--marrom);
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: opacity .2s;
+}
+
+.btn-voltar:hover { opacity: .85; }
+
+@media (max-width: 500px) {
+    .item { flex-direction: column; }
+}
 </style>
 
 </head>
 <body>
 
-<div class="container">
+<!-- ========================
+     TELA DE LOGIN
+======================== -->
+<div id="tela-login">
+    <div class="login-box">
 
-<h1>Painel Administrativo</h1>
+        <img src="imagens/logo.png" alt="Logo">
 
-<div class="formulario">
+        <h2>Área Restrita</h2>
+        <p>Digite a senha para acessar o painel.</p>
 
-<h2>Novo Livro</h2>
+        <input
+            type="password"
+            id="campo-senha"
+            placeholder="••••••••"
+            onkeydown="if(event.key==='Enter') entrar()">
 
-<input
-type="text"
-id="nome"
-placeholder="Nome do Livro">
+        <button class="btn-entrar" onclick="entrar()">
+            Entrar
+        </button>
 
-<select id="categoria">
+        <p class="erro-login" id="erro-login">
+            ❌ Senha incorreta. Tente novamente.
+        </p>
 
-<option>Bíblias</option>
-<option>Devocionais</option>
-<option>Livros</option>
-
-</select>
-
-<input
-type="text"
-id="preco"
-placeholder="Preço">
-
-<textarea
-id="descricao"
-placeholder="Descrição">
-</textarea>
-
-<input
-type="text"
-id="imagem"
-placeholder="Link da imagem">
-
-<button onclick="adicionarLivro()">
-Adicionar Livro
-</button>
-
+    </div>
 </div>
 
-<div class="lista" id="lista">
+<!-- ========================
+     PAINEL ADMIN
+======================== -->
+<div id="tela-admin">
+<div class="admin-container">
+
+    <div class="admin-header">
+        <h1 class="admin-titulo">Painel Administrativo</h1>
+        <button class="btn-sair" onclick="sair()">Sair</button>
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <div class="formulario">
+
+        <h2>Adicionar Livro</h2>
+
+        <div class="campo">
+            <label for="nome">Nome do Livro *</label>
+            <input type="text" id="nome" placeholder="Ex: A Bíblia de Estudo NVI">
+        </div>
+
+        <div class="campo">
+            <label for="categoria">Categoria</label>
+            <select id="categoria">
+                <option value="Bíblias">Bíblias</option>
+                <option value="Devocionais">Devocionais</option>
+                <option value="Livros">Livros</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="preco">Preço (ex: 89,90)</label>
+            <input type="text" id="preco" placeholder="89,90">
+        </div>
+
+        <div class="campo">
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" placeholder="Breve descrição do livro..."></textarea>
+        </div>
+
+        <div class="campo">
+            <label for="imagem">Link da Imagem</label>
+            <input type="text" id="imagem" placeholder="https://...">
+        </div>
+
+        <button class="btn-adicionar" onclick="adicionarLivro()">
+            + Adicionar Livro
+        </button>
+
+    </div>
+
+    <!-- LISTA -->
+    <h2 class="lista-titulo">Livros Cadastrados</h2>
+    <div class="lista" id="lista"></div>
+
+    <a href="index.html" class="btn-voltar">← Voltar ao Site</a>
 
 </div>
-
-<a href="index.html" class="voltar">
-Voltar ao Site
-</a>
-
 </div>
 
 <script>
 
-let livros =
-JSON.parse(localStorage.getItem("livros")) || [];
+// ===============================
+// ⚠️ MUDE A SENHA AQUI ⚠️
+// ===============================
+const SENHA_ADMIN = "sualivraria123";
+// ===============================
 
-function salvar(){
+// --- LOGIN ---
 
-    localStorage.setItem(
-        "livros",
-        JSON.stringify(livros)
-    );
+function entrar() {
+    const digitada = document.getElementById("campo-senha").value;
+    const erro = document.getElementById("erro-login");
 
+    if (digitada === SENHA_ADMIN) {
+        sessionStorage.setItem("adminLogado", "true");
+        mostrarAdmin();
+    } else {
+        erro.style.display = "block";
+        document.getElementById("campo-senha").value = "";
+        document.getElementById("campo-senha").focus();
+    }
 }
 
-function adicionarLivro(){
+function sair() {
+    sessionStorage.removeItem("adminLogado");
+    document.getElementById("tela-admin").style.display = "none";
+    document.getElementById("tela-login").style.display = "flex";
+    document.getElementById("campo-senha").value = "";
+}
 
-    const nome =
-    document.getElementById("nome").value;
+function mostrarAdmin() {
+    document.getElementById("tela-login").style.display = "none";
+    document.getElementById("tela-admin").style.display = "block";
+    renderizar();
+}
 
-    const categoria =
-    document.getElementById("categoria").value;
+// Verifica se já estava logado nesta sessão
+if (sessionStorage.getItem("adminLogado") === "true") {
+    mostrarAdmin();
+}
 
-    const preco =
-    document.getElementById("preco").value;
+// --- LIVROS ---
 
-    const descricao =
-    document.getElementById("descricao").value;
+let livros = JSON.parse(localStorage.getItem("livros")) || [];
 
-    const imagem =
-    document.getElementById("imagem").value;
+function salvar() {
+    localStorage.setItem("livros", JSON.stringify(livros));
+}
 
-    if(!nome){
+function adicionarLivro() {
+    const nome      = document.getElementById("nome").value.trim();
+    const categoria = document.getElementById("categoria").value;
+    const preco     = document.getElementById("preco").value.trim();
+    const descricao = document.getElementById("descricao").value.trim();
+    const imagem    = document.getElementById("imagem").value.trim();
 
-        alert("Digite o nome do livro");
+    if (!nome) {
+        alert("Digite o nome do livro.");
         return;
-
     }
 
-    livros.push({
-
-        id:Date.now(),
-
-        nome,
-        categoria,
-        preco,
-        descricao,
-        imagem
-
-    });
-
+    livros.push({ id: Date.now(), nome, categoria, preco, descricao, imagem });
     salvar();
 
-    location.reload();
-
-}
-
-function excluirLivro(id){
-
-    livros =
-    livros.filter(
-        livro => livro.id !== id
-    );
-
-    salvar();
+    document.getElementById("nome").value      = "";
+    document.getElementById("preco").value     = "";
+    document.getElementById("descricao").value = "";
+    document.getElementById("imagem").value    = "";
 
     renderizar();
-
 }
 
-function renderizar(){
+function excluirLivro(id) {
+    if (!confirm("Deseja excluir este livro?")) return;
+    livros = livros.filter(l => l.id !== id);
+    salvar();
+    renderizar();
+}
 
-    const lista =
-    document.getElementById("lista");
+function renderizar() {
+    const lista = document.getElementById("lista");
 
-    lista.innerHTML = "";
+    if (livros.length === 0) {
+        lista.innerHTML = '<div class="vazio">Nenhum livro cadastrado ainda.</div>';
+        return;
+    }
 
-    livros.forEach(livro=>{
-
-        lista.innerHTML += `
-
+    lista.innerHTML = livros.map(livro => `
         <div class="item">
-
-            <img src="${livro.imagem}">
-
-            <h3>${livro.nome}</h3>
-
-            <p>
-            Categoria:
-            ${livro.categoria}
-            </p>
-
-            <p>
-            R$ ${livro.preco}
-            </p>
-
-            <button
-            class="excluir"
-            onclick="excluirLivro(${livro.id})">
-
-            Excluir
-
-            </button>
-
+            <img src="${livro.imagem || 'https://via.placeholder.com/80x110?text=Sem+foto'}" alt="${livro.nome}">
+            <div class="item-info">
+                <h3>${livro.nome}</h3>
+                <p>Categoria: ${livro.categoria}</p>
+                <p>${livro.descricao || ''}</p>
+                <p class="item-preco">R$ ${livro.preco}</p>
+            </div>
+            <button class="btn-excluir" onclick="excluirLivro(${livro.id})">Excluir</button>
         </div>
-
-        `;
-
-    });
-
+    `).join("");
 }
-
-renderizar();
 
 </script>
 
