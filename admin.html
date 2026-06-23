@@ -16,9 +16,6 @@ body {
     padding: 30px 20px;
 }
 
-/* ===========================
-   TELA DE LOGIN
-=========================== */
 #tela-login {
     display: flex;
     justify-content: center;
@@ -84,9 +81,7 @@ body {
     transition: background .2s;
 }
 
-.btn-entrar:hover {
-    background: #b86e10;
-}
+.btn-entrar:hover { background: #b86e10; }
 
 .erro-login {
     color: #c62828;
@@ -95,12 +90,7 @@ body {
     display: none;
 }
 
-/* ===========================
-   PAINEL ADMIN
-=========================== */
-#tela-admin {
-    display: none;
-}
+#tela-admin { display: none; }
 
 .admin-container {
     max-width: 900px;
@@ -134,9 +124,7 @@ body {
     transition: background .2s;
 }
 
-.btn-sair:hover {
-    background: #555;
-}
+.btn-sair:hover { background: #555; }
 
 .formulario {
     background: white;
@@ -152,9 +140,7 @@ body {
     font-size: 1.1rem;
 }
 
-.campo {
-    margin-bottom: 15px;
-}
+.campo { margin-bottom: 15px; }
 
 .campo label {
     display: block;
@@ -179,9 +165,7 @@ body {
 
 .campo input:focus,
 .campo textarea:focus,
-.campo select:focus {
-    border-color: var(--laranja);
-}
+.campo select:focus { border-color: var(--laranja); }
 
 .campo textarea {
     resize: vertical;
@@ -201,9 +185,8 @@ body {
     transition: background .2s;
 }
 
-.btn-adicionar:hover {
-    background: #b86e10;
-}
+.btn-adicionar:hover { background: #b86e10; }
+.btn-adicionar:disabled { opacity: .6; cursor: not-allowed; }
 
 .lista-titulo {
     font-family: 'Merriweather', serif;
@@ -212,10 +195,7 @@ body {
     font-size: 1.1rem;
 }
 
-.lista {
-    display: grid;
-    gap: 15px;
-}
+.lista { display: grid; gap: 15px; }
 
 .item {
     background: white;
@@ -301,37 +281,23 @@ body {
 </head>
 <body>
 
-<!-- ========================
-     TELA DE LOGIN
-======================== -->
+<!-- TELA DE LOGIN -->
 <div id="tela-login">
     <div class="login-box">
-
         <img src="imagens/logo.png" alt="Logo">
-
         <h2>Área Restrita</h2>
         <p>Digite a senha para acessar o painel.</p>
-
         <input
             type="password"
             id="campo-senha"
             placeholder="••••••••"
             onkeydown="if(event.key==='Enter') entrar()">
-
-        <button class="btn-entrar" onclick="entrar()">
-            Entrar
-        </button>
-
-        <p class="erro-login" id="erro-login">
-            ❌ Senha incorreta. Tente novamente.
-        </p>
-
+        <button class="btn-entrar" onclick="entrar()">Entrar</button>
+        <p class="erro-login" id="erro-login">❌ Senha incorreta. Tente novamente.</p>
     </div>
 </div>
 
-<!-- ========================
-     PAINEL ADMIN
-======================== -->
+<!-- PAINEL ADMIN -->
 <div id="tela-admin">
 <div class="admin-container">
 
@@ -340,9 +306,7 @@ body {
         <button class="btn-sair" onclick="sair()">Sair</button>
     </div>
 
-    <!-- FORMULÁRIO -->
     <div class="formulario">
-
         <h2>Adicionar Livro</h2>
 
         <div class="campo">
@@ -374,13 +338,11 @@ body {
             <input type="text" id="imagem" placeholder="https://...">
         </div>
 
-        <button class="btn-adicionar" onclick="adicionarLivro()">
+        <button class="btn-adicionar" id="btn-adicionar" onclick="adicionarLivro()">
             + Adicionar Livro
         </button>
-
     </div>
 
-    <!-- LISTA -->
     <h2 class="lista-titulo">Livros Cadastrados</h2>
     <div class="lista" id="lista"></div>
 
@@ -389,7 +351,10 @@ body {
 </div>
 </div>
 
-<script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 // ===============================
 // ⚠️ MUDE A SENHA AQUI ⚠️
@@ -397,11 +362,23 @@ body {
 const SENHA_ADMIN = "sualivraria123";
 // ===============================
 
+const firebaseConfig = {
+    apiKey: "AIzaSyAJ-CiFqg4EmyAVCzCbVuZQk3Y1eFaOsPA",
+    authDomain: "sualivraria-47ded.firebaseapp.com",
+    projectId: "sualivraria-47ded",
+    storageBucket: "sualivraria-47ded.firebasestorage.app",
+    messagingSenderId: "874657666455",
+    appId: "1:874657666455:web:10101be0d62c7bae8b60d2"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
 // --- LOGIN ---
 
-function entrar() {
+window.entrar = function() {
     const digitada = document.getElementById("campo-senha").value;
-    const erro = document.getElementById("erro-login");
+    const erro     = document.getElementById("erro-login");
 
     if (digitada === SENHA_ADMIN) {
         sessionStorage.setItem("adminLogado", "true");
@@ -413,7 +390,7 @@ function entrar() {
     }
 }
 
-function sair() {
+window.sair = function() {
     sessionStorage.removeItem("adminLogado");
     document.getElementById("tela-admin").style.display = "none";
     document.getElementById("tela-login").style.display = "flex";
@@ -423,23 +400,16 @@ function sair() {
 function mostrarAdmin() {
     document.getElementById("tela-login").style.display = "none";
     document.getElementById("tela-admin").style.display = "block";
-    renderizar();
+    ouvirLivros();
 }
 
-// Verifica se já estava logado nesta sessão
 if (sessionStorage.getItem("adminLogado") === "true") {
     mostrarAdmin();
 }
 
-// --- LIVROS ---
+// --- ADICIONAR ---
 
-let livros = JSON.parse(localStorage.getItem("livros")) || [];
-
-function salvar() {
-    localStorage.setItem("livros", JSON.stringify(livros));
-}
-
-function adicionarLivro() {
+window.adicionarLivro = async function() {
     const nome      = document.getElementById("nome").value.trim();
     const categoria = document.getElementById("categoria").value;
     const preco     = document.getElementById("preco").value.trim();
@@ -451,25 +421,49 @@ function adicionarLivro() {
         return;
     }
 
-    livros.push({ id: Date.now(), nome, categoria, preco, descricao, imagem });
-    salvar();
+    const btn = document.getElementById("btn-adicionar");
+    btn.disabled = true;
+    btn.textContent = "Salvando...";
 
-    document.getElementById("nome").value      = "";
-    document.getElementById("preco").value     = "";
-    document.getElementById("descricao").value = "";
-    document.getElementById("imagem").value    = "";
+    try {
+        await addDoc(collection(db, "livros"), { nome, categoria, preco, descricao, imagem });
 
-    renderizar();
+        document.getElementById("nome").value      = "";
+        document.getElementById("preco").value     = "";
+        document.getElementById("descricao").value = "";
+        document.getElementById("imagem").value    = "";
+
+    } catch(e) {
+        alert("Erro ao salvar. Tente novamente.");
+        console.error(e);
+    }
+
+    btn.disabled = false;
+    btn.textContent = "+ Adicionar Livro";
 }
 
-function excluirLivro(id) {
+// --- EXCLUIR ---
+
+window.excluirLivro = async function(id) {
     if (!confirm("Deseja excluir este livro?")) return;
-    livros = livros.filter(l => l.id !== id);
-    salvar();
-    renderizar();
+    try {
+        await deleteDoc(doc(db, "livros", id));
+    } catch(e) {
+        alert("Erro ao excluir.");
+        console.error(e);
+    }
 }
 
-function renderizar() {
+// --- OUVIR EM TEMPO REAL ---
+
+function ouvirLivros() {
+    onSnapshot(collection(db, "livros"), (snapshot) => {
+        const livros = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderizar(livros);
+    });
+}
+
+function renderizar(livros) {
     const lista = document.getElementById("lista");
 
     if (livros.length === 0) {
@@ -486,7 +480,7 @@ function renderizar() {
                 <p>${livro.descricao || ''}</p>
                 <p class="item-preco">R$ ${livro.preco}</p>
             </div>
-            <button class="btn-excluir" onclick="excluirLivro(${livro.id})">Excluir</button>
+            <button class="btn-excluir" onclick="excluirLivro('${livro.id}')">Excluir</button>
         </div>
     `).join("");
 }
